@@ -1,3 +1,17 @@
+// Firebase Configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDRdMnkZhjlktRlMD4zXrH9DJJXOgJdqos",
+  authDomain: "writeup-system.firebaseapp.com",
+  projectId: "writeup-system",
+  storageBucket: "writeup-system.firebasestorage.app",
+  messagingSenderId: "959840826128",
+  appId: "1:959840826128:web:4e97b868a9eb7273edab95",
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 const staffPasswords = { 
     "Eli": "Eli1234", 
     "Daniel": "Daniel1234", 
@@ -38,62 +52,68 @@ function createWriteUp() {
     const details = document.getElementById("details").value;
     const date = new Date().toLocaleDateString();
 
-    const writeUps = JSON.parse(localStorage.getItem("writeUps")) || [];
-    writeUps.push({ staffName, date, reason, details });
-
-    localStorage.setItem("writeUps", JSON.stringify(writeUps));
-    alert("Write-Up Submitted!");
-
-    loadWriteUps();
-}
-
-function loadWriteUps() {
-    const writeUps = JSON.parse(localStorage.getItem("writeUps")) || [];
-    const table = document.getElementById("writeUpTable");
-    table.innerHTML = "<tr><th>Name</th><th>Date</th><th>Reason</th><th>Details</th><th>Action</th></tr>";
-
-    writeUps.forEach((writeUp, index) => {
-        const row = table.insertRow();
-        row.insertCell(0).innerText = writeUp.staffName;
-        row.insertCell(1).innerText = writeUp.date;
-        row.insertCell(2).innerText = writeUp.reason;
-        row.insertCell(3).innerText = writeUp.details;
-
-        const removeBtn = document.createElement("button");
-        removeBtn.innerText = "Remove";
-        removeBtn.onclick = function() {
-            removeWriteUp(index);
-        };
-        row.insertCell(4).appendChild(removeBtn);
+    db.collection("writeUps").add({
+        staffName,
+        date,
+        reason,
+        details
+    }).then(() => {
+        alert("Write-Up Submitted!");
+        loadWriteUps();
+    }).catch((error) => {
+        console.error("Error adding write-up: ", error);
     });
 }
 
-function removeWriteUp(index) {
+function loadWriteUps() {
+    const table = document.getElementById("writeUpTable");
+    table.innerHTML = "<tr><th>Name</th><th>Date</th><th>Reason</th><th>Details</th><th>Action</th></tr>";
+
+    db.collection("writeUps").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const writeUp = doc.data();
+            const row = table.insertRow();
+            row.insertCell(0).innerText = writeUp.staffName;
+            row.insertCell(1).innerText = writeUp.date;
+            row.insertCell(2).innerText = writeUp.reason;
+            row.insertCell(3).innerText = writeUp.details;
+
+            const removeBtn = document.createElement("button");
+            removeBtn.innerText = "Remove";
+            removeBtn.onclick = function() {
+                removeWriteUp(doc.id);
+            };
+            row.insertCell(4).appendChild(removeBtn);
+        });
+    });
+}
+
+function removeWriteUp(id) {
     const reason = prompt("Enter reason for removal:");
     if (!reason) {
         alert("A valid reason is required to remove a write-up.");
         return;
     }
 
-    const writeUps = JSON.parse(localStorage.getItem("writeUps")) || [];
-    writeUps.splice(index, 1);
-    localStorage.setItem("writeUps", JSON.stringify(writeUps));
-
-    alert("Write-Up removed for the following reason: " + reason);
-    loadWriteUps();
+    db.collection("writeUps").doc(id).delete().then(() => {
+        alert("Write-Up removed for the following reason: " + reason);
+        loadWriteUps();
+    }).catch((error) => {
+        console.error("Error removing write-up: ", error);
+    });
 }
 
 function loadStaffWriteUps(username) {
-    const writeUps = JSON.parse(localStorage.getItem("writeUps")) || [];
     const table = document.getElementById("staffWriteUpTable");
     table.innerHTML = "<tr><th>Date</th><th>Reason</th><th>Details</th></tr>";
 
-    writeUps
-        .filter(writeUp => writeUp.staffName === username)
-        .forEach(writeUp => {
+    db.collection("writeUps").where("staffName", "==", username).get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const writeUp = doc.data();
             const row = table.insertRow();
             row.insertCell(0).innerText = writeUp.date;
             row.insertCell(1).innerText = writeUp.reason;
             row.insertCell(2).innerText = writeUp.details;
         });
+    });
 }
