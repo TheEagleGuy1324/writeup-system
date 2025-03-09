@@ -6,6 +6,7 @@ const firebaseConfig = {
   storageBucket: "writeup-system.firebasestorage.app",
   messagingSenderId: "959840826128",
   appId: "1:959840826128:web:4e97b868a9eb7273edab95",
+  measurementId: "G-6QMY5QSZH0"
 };
 
 // Initialize Firebase
