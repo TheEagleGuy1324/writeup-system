@@ -1,12 +1,14 @@
-const staffPasswords = {
-    "john_doe": "password123",
-    "jane_smith": "securePass",
-    "ahmad": "ahmadPass",
-    "cami": "camiPass"
+const staffPasswords = { 
+    "Eli": "Eli1234", 
+    "Daniel": "Daniel1234", 
+    "Seal": "Seal1234", 
+    "Nyla": "Nyla1234", 
+    "Medi": "Medi1234", 
+    "Cody": "Cody1234" 
 };
 
-const adminUsername = "admin";
-const adminPassword = "AdminOnlyPass123";
+const adminUsername = "Admin";
+const adminPassword = "341479Christopher";
 
 function login() {
     const username = document.getElementById("username").value;
