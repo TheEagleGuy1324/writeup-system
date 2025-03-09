@@ -12,6 +12,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Hardcoded User Credentials
 const staffPasswords = { 
     "Eli": "Eli1234", 
     "Daniel": "Daniel1234", 
@@ -24,6 +25,7 @@ const staffPasswords = {
 const adminUsername = "Admin";
 const adminPassword = "341479Christopher";
 
+// Login Function
 function login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
@@ -41,11 +43,13 @@ function login() {
     }
 }
 
+// Logout Function
 function logout() {
     document.getElementById("staffPanel").style.display = "none";
     document.getElementById("adminPanel").style.display = "none";
 }
 
+// Create Write-Up
 function createWriteUp() {
     const staffName = document.getElementById("staffName").value;
     const reason = document.getElementById("reason").value;
@@ -65,6 +69,7 @@ function createWriteUp() {
     });
 }
 
+// Load All Write-Ups for Admin
 function loadWriteUps() {
     const table = document.getElementById("writeUpTable");
     table.innerHTML = "<tr><th>Name</th><th>Date</th><th>Reason</th><th>Details</th><th>Action</th></tr>";
@@ -88,6 +93,7 @@ function loadWriteUps() {
     });
 }
 
+// Remove Write-Up with Reason
 function removeWriteUp(id) {
     const reason = prompt("Enter reason for removal:");
     if (!reason) {
@@ -103,6 +109,7 @@ function removeWriteUp(id) {
     });
 }
 
+// Load Staff's Own Write-Ups
 function loadStaffWriteUps(username) {
     const table = document.getElementById("staffWriteUpTable");
     table.innerHTML = "<tr><th>Date</th><th>Reason</th><th>Details</th></tr>";
