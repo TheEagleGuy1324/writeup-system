@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRG Write-Up System</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; background-color: #f8f9fa; }
+        input, select, button { margin: 10px; padding: 10px; }
+        #adminPanel, #staffPanel { display: none; margin-top: 20px; }
+        table { width: 80%; margin: 20px auto; border-collapse: collapse; background: white; }
+        th, td { border: 1px solid black; padding: 10px; text-align: center; }
+        th { background-color: #007bff; color: white; }
+        button { background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <h2>TRG Write-Up System</h2>
+    <p>Enter your **Username** and **Password** to access your account.</p>
+    
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button onclick="login()">Login</button>
+
+    <div id="adminPanel">
+        <h2>Admin Dashboard</h2>
+        <button onclick="logout()">Logout</button>
+        
+        <h3>Create Write-Up</h3>
+        <select id="staffName">
+            <option value="Eli">Eli</option>
+            <option value="Seal">Seal</option>
+            <option value="Daniel">Daniel</option>
+            <option value="Nyla">Nyla</option>
+            <option value="Medi">Medi</option>
+            <option value="Cody">Cody</option>
+        </select>
+        <select id="reason">
+            <option value="Admin Abuse">Admin Abuse</option>
+            <option value="False Bans/Kicks">False Bans/Kicks</option>
+            <option value="Disrespect">Disrespect</option>
+            <option value="Failure to Log Actions">Failure to Log Actions</option>
+        </select>
+        <textarea id="details" placeholder="More Information"></textarea>
+        <button onclick="createWriteUp()">Submit Write-Up</button>
+
+        <h3>Search Write-Ups</h3>
+        <input type="text" id="searchInput" placeholder="Search by Name, Date, or Reason">
+        <button onclick="searchWriteUps()">Search</button>
+
+        <h3>All Write-Ups</h3>
+        <table id="writeUpTable">
+            <tr>
+                <th>Name</th><th>Date</th><th>Reason</th><th>Details</th><th>Action</th>
+            </tr>
+        </table>
+    </div>
+
+    <div id="staffPanel">
+        <h2>Your Write-Ups</h2>
+        <button onclick="logout()">Logout</button>
+        <table id="staffWriteUpTable">
+            <tr>
+                <th>Date</th><th>Reason</th><th>Details</th>
+            </tr>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
