@@ -1,14 +1,12 @@
-const staffPasswords = { 
-    "Eli": "Eli1234", 
-    "Daniel": "Daniel1234", 
-    "Seal": "Seal1234", 
-    "Nyla": "Nyla1234", 
-    "Medi": "Medi1234", 
-    "Cody": "Cody1234" 
+const staffPasswords = {
+    "john_doe": "password123",
+    "jane_smith": "securePass",
+    "ahmad": "ahmadPass",
+    "cami": "camiPass"
 };
 
-const adminUsername = "Admin";
-const adminPassword = "341479Christopher";
+const adminUsername = "admin";
+const adminPassword = "AdminOnlyPass123";
 
 function login() {
     const username = document.getElementById("username").value;
@@ -96,25 +94,4 @@ function loadStaffWriteUps(username) {
             row.insertCell(1).innerText = writeUp.reason;
             row.insertCell(2).innerText = writeUp.details;
         });
-}
-
-function searchWriteUps() {
-    const searchInput = document.getElementById("searchInput").value.toLowerCase();
-    const writeUps = JSON.parse(localStorage.getItem("writeUps")) || [];
-    const filtered = writeUps.filter(writeUp => 
-        writeUp.staffName.toLowerCase().includes(searchInput) || 
-        writeUp.date.includes(searchInput) || 
-        writeUp.reason.toLowerCase().includes(searchInput)
-    );
-
-    const table = document.getElementById("writeUpTable");
-    table.innerHTML = "<tr><th>Name</th><th>Date</th><th>Reason</th><th>Details</th><th>Action</th></tr>";
-
-    filtered.forEach((writeUp, index) => {
-        const row = table.insertRow();
-        row.insertCell(0).innerText = writeUp.staffName;
-        row.insertCell(1).innerText = writeUp.date;
-        row.insertCell(2).innerText = writeUp.reason;
-        row.insertCell(3).innerText = writeUp.details;
-    });
 }
